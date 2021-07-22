@@ -1,0 +1,26 @@
+#!/bin/bash
+
+readonly jsonbinApiKey=""
+readonly collectionId=""
+
+signature=`echo "$1" | gpg --digest-algo SHA256 --detach-sig -armor | base64`
+timestamp=`date +%Y-%m-%dT%H:%M:%S%z`
+uuid=`uuidgen`
+
+temp='{"tweet": {"uuid":"%s","timestamp":"%s","content":"%s", "signature":"%s"}}'
+bin=$(printf "$temp" "$uuid" "$timestamp" "$1" "$signature")
+
+{
+curl -v\
+  -H "Content-Type: application/json" \
+  -H "X-Master-key: $jsonbinApiKey" \
+  -H "X-Bin-Private: false" \
+  -H "X-Collection-Id: $collectionId" \
+  --request POST \
+  --data "$bin"  \
+    https://api.jsonbin.io/v3/b
+
+twurl -d "status=$1" /1.1/statuses/update.json 
+} &> /dev/null
+
+echo "Send tweet with signature: $1"
