@@ -73,7 +73,7 @@ The general process is described in [this article](https://developer.twitter.com
 Next, create an account on [jsonbin](https://jsonbin.io/) and save your API key. Set the api key in the tweet-sign script in the constant "jsonbinApiKey".
 
 Create a collection called "twitter-signatures" and save the corresponding id (todo: we can easily automate this process as well).
-Set the corresponding id in the tweet-sign script in the constant "binCollectionId".
+Set the corresponding id in the tweet-sign script in the constant "collectionId".
 
 **Example usage:**
 
