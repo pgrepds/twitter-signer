@@ -75,7 +75,11 @@ Next, create an account on [jsonbin](https://jsonbin.io/) and save your API key.
 Create a collection called "twitter-signatures" and save the corresponding id (todo: we can easily automate this process as well).
 Set the corresponding id in the tweet-sign script in the constant "binCollectionId".
 
-**Example usage:** tweet-sign "hello world"
+**Example usage:**
+
+```bash
+tweet-sign "hello world"
+```
 
 The generated signature is base64 encoded.
 
