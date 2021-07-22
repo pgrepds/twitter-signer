@@ -78,12 +78,61 @@ Set the corresponding id in the tweet-sign script in the constant "binCollection
 **Example usage:**
 
 ```bash
-tweet-sign "hello world"
+tweet-sign "This is a tweet whose signature is stored in jsonbin"
 ```
 
 The generated signature is base64 encoded.
 
+The following json is published on jsonbin.
+
+```json
+{
+  "tweet": {
+    "uuid": "F0A2293D-3EDB-46AD-9DE1-C1568E97850B",
+    "timestamp": "2021-07-23T00:13:33+0200",
+    "content": "This is a tweet whose signature is stored in jsonbin",
+    "signature": "LS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0KCmlRSXpCQUFCQ0FBZEZpRUVwNEI3UitVY1pxQm5UMmk4WHRhdnR2RmtRTlVGQW1ENTdZd0FDZ2tRWHRhdnR2RmsKUU5WZWNBLy9UR2dlWXBzS0k3V3NKNHlhSjZjajBib1VmaVFDSFRhMFpGUWNuN1Z4TXJ2eU0rNmFzNVNwZCsxagpuUzlJZjBLek9ST0Z0OEFXYXQrUTZMNnROQk9DR0tsdGd3NU1xNjkrb3plVnU5akdSeGNFSFhTVmJ3WGx0enpaCnE4NkhrdDU3eDhIYnczNXhwRTBoU0xPbUlSd2VUOE13aCtNampJNUkxQkI0Wk9rcTBvd3VtbHMzREJhb2crZWMKUmRSN2tWZzdoUUZNWGs4SmcydXYwK2Y4SitZL0hzTXE1WW95bWh3S0RZUGRKMk1GbjlsY1J4S0lZaXhQTGlXMgpMOFVUUldzdi9iZFY2NDViN0ZpZEtpRVB6SjYxSkQyb1BWSUNJb1lhTmpZcEdUeGtmNGk0a2Y2RGdGSGRkU2R2CmhCTXZwQ0tiVDFpT0RiZG9JRENvYjloZlgrakN4NFdnZjJWMVNvbGdVRFpBQURJZFNMb2VTNnZieTFPc0FKTjIKMlVJTEdRR0t1eUhHU2c2VHVzTzFjTUNseXA3MGMvWU40NDZ5ZHN4RDVOeUE0K2c5Z0UxcXk4U1c4TUFGMDBLOQpoQmZ1SGduUm9KVWlkR3BSeFQ3clJ6cG9ETWdWMTUxZG13SzJlZTdKelJ2ZHZZcVowWnNscHBVTUhFWXFKMEh4ClFldW15VkIzeVY4M1U1OHkyOGZQYnB5aS9NL3ZjUk5FRzB3QzBIREpib1pMWE5sZ1VHYkYrTTBCRzFwNnZ4d0MKSFc5ZWlwU1l0RUlxVThPSEc0R0hIMGZtZnRNRG02aTRRWk1QcE1nSElEbk1MRngyMGVYN1NRdlJkeThVKzNvWQpidkVnVzE3U2lCUG9kNGs1VldxUzc4QWVDZXdKZlh6ODdPVlo5bFR4REh4My9LR24ydUU9Cj1XK1EvCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLQo="
+  }
+}
+```
+
 In order for the rest of the world to verify the authenticity of your tweets, you must provide them with your PGP public key, which is usually uploaded to a key server such as [keys.openpgp.org](https://keys.openpgp.org/), and your personal public jsonbin. But this is very straight forward.
+
+We can verify as follows.
+
+1. Decode the signature
+
+```bash
+echo "LS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0KCmlRSXpCQUFCQ0FBZEZpRUVwNEI3UitVY1pxQm5UMmk4WHRhdnR2RmtRTlVGQW1ENTcvY0FDZ2tRWHRhdnR2RmsKUU5VeXJBLytQSzE0Zmdmc0JiYTRjYW9rR1c5Vzh3V2ZGZzlvYTNkWGhRWXdZWE9ZK2xCYzZObXNUYm9iSnlIMApWV0hnVW8vdG1OK09yMTlXYXhyWk5wREx2SmhvWk5DVHBWQ0RsSHN6Y0s2MlRmTVQyMU9kYWpnMmtXemFaY0c1ClJhazl4dlpUT3RpL2RGUjFFUUxTL1lHZ1JENSs0SXFYVDVMbE5HZ05PM3VTSCt2am1rUnhwU2RpdFl1Ujc1ZzcKQmdCTTBWdXNaTzFVd2JnajlRVkdmUGQzZjZtRTMrYU9ncm4wS0VtQnYweWtjQis3b0VPMEpJelJDOFhoSUlmdAppY0VTc1pyY2NQd0NjWUVQNTNndkFGTlY5Skg4NnNYaXNCeFZNSnlFbXIxYTdrRnJwNWRwV0s2VTc1ODcvZktVCnp0MXRzbFJoLzlhcW9mcDg1NTBSTFZVNmhPR3Vsb2EzTUZaa3FHZkZTWHhpdE9GMGlnKzdEeVd3TE5uTHBiNWMKdmIrQ1UzZjIvYWVReUdESndEWlY3QmtnbGdNZGwvS0FQNlI0TmRKemlLcWVIVE5ML2lZR3pjWGU1U0lkM1BBRgpKdVlJSTZCajkreXpPMDIxVXROMzFXYzJCK1pSaitkWnp4QlJvMW5kdTJtenZ1Y3NyWXdUT2ZDYUlwU1pKSmlpClB4UDlia2lhTWNwSnI1QWVXMHZkcmxqMUdqbzJoSVpUWXBFWnR6SXpkbXQrU2s5bmtYYXpvYUUwN0ZyWHJiUlUKQjZzNFVkRWdOSUo4ZXNDTjdCYVdvZGJ4OEtmY0owbmVsWi9iSTlDTWtITDdKVTNTNVhvRmZudjhwL0poNHFCZAp1K2RxQlE4WXFLZnJvVUtXeENMSVRCblpqK2RONXhBQmVDdHNjTzJ3SHV4bFh3dEk2S1k9Cj0wYmdHCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLQo=" | base64 --decode > signature.sig
+```
+
+The decoded signature looks like this.
+
+```bash
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEp4B7R+UcZqBnT2i8XtavtvFkQNUFAmD57YwACgkQXtavtvFk
+QNVecA//TGgeYpsKI7WsJ4yaJ6cj0boUfiQCHTa0ZFQcn7VxMrvyM+6as5Spd+1j
+nS9If0KzOROFt8AWat+Q6L6tNBOCGKltgw5Mq69+ozeVu9jGRxcEHXSVbwXltzzZ
+q86Hkt57x8Hbw35xpE0hSLOmIRweT8Mwh+MjjI5I1BB4ZOkq0owumls3DBaog+ec
+RdR7kVg7hQFMXk8Jg2uv0+f8J+Y/HsMq5YoymhwKDYPdJ2MFn9lcRxKIYixPLiW2
+L8UTRWsv/bdV645b7FidKiEPzJ61JD2oPVICIoYaNjYpGTxkf4i4kf6DgFHddSdv
+hBMvpCKbT1iODbdoIDCob9hfX+jCx4Wgf2V1SolgUDZAADIdSLoeS6vby1OsAJN2
+2UILGQGKuyHGSg6TusO1cMClyp70c/YN446ydsxD5NyA4+g9gE1qy8SW8MAF00K9
+hBfuHgnRoJUidGpRxT7rRzpoDMgV151dmwK2ee7JzRvdvYqZ0ZslppUMHEYqJ0Hx
+QeumyVB3yV83U58y28fPbpyi/M/vcRNEG0wC0HDJboZLXNlgUGbF+M0BG1p6vxwC
+HW9eipSYtEIqU8OHG4GHH0fmftMDm6i4QZMPpMgHIDnMLFx20eX7SQvRdy8U+3oY
+bvEgW17SiBPod4k5VWqS78AeCewJfXz87OVZ9lTxDHx3/KGn2uE=
+=W+Q/
+-----END PGP SIGNATURE-----
+```
+
+2. Extract the payload, in this case "This is a tweet whose signature is stored in jsonbin"
+3. Verify using
+
+```bash
+gpg --verify signature.sig content
+```
 
 ## Implementation details
 
